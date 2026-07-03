@@ -7,12 +7,15 @@ public class PlayerMovementController : MonoBehaviour
   
 
     public Transform          cameraTransform;
+    public Transform          interactableTransform;
     public PlayerMovementData PlayerMovementData;
 
     public Camera playerCamera;
     
     private BasketBallInput     controls;
 
+    private Interactable_Base heldInteractable;
+    
     private CharacterController controller;
     
     private Vector2 moveInput;
@@ -34,8 +37,10 @@ public class PlayerMovementController : MonoBehaviour
         controls.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
         controls.Player.Look.canceled += ctx => lookInput = Vector2.zero;
 
+
+        controls.Player.Interact.performed += ctx => OnInteract();
         // Jump
-        controls.Player.Jump.performed += ctx => Jump();
+        controls.Player.Jump.performed += ctx => OnJump();
     }
 
     void OnEnable()
@@ -54,6 +59,7 @@ public class PlayerMovementController : MonoBehaviour
         HandleLook();
 
         InteractRayCast();
+        
     }
 
     void HandleMovement()
@@ -95,19 +101,54 @@ public class PlayerMovementController : MonoBehaviour
             return;
         }
 
+        if (heldInteractable != null )
+        {
+            return;
+        }
+
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 50))
+        if (Physics.Raycast(ray, out hit, 5))
         {
-            Debug.Log("Hit: " + hit.collider.name);
+           
+            if (hit.collider.CompareTag("Interactable"))
+            {
+                Debug.Log("Hit interactable: " + hit.collider.name);
 
-            // Example: apply damage or interaction
-            // hit.collider.GetComponent<Health>()?.TakeDamage(10);
+                heldInteractable = hit.collider.GetComponent<Interactable_Base>();
+                if (heldInteractable == null)
+                {
+                    return;
+                }
+          
+                Rigidbody interactableRigidbody = heldInteractable.GetComponent<Rigidbody>();
+                if (interactableRigidbody == null)
+                {
+                    heldInteractable = null;
+                    return;
+                }
+                interactableRigidbody.isKinematic = true;
+                interactableRigidbody.useGravity = false;
+                
+                heldInteractable.transform.SetParent(interactableTransform);
+                heldInteractable.transform.localPosition = Vector3.zero;
+                heldInteractable.transform.localRotation = Quaternion.identity;
+
+                // Example: call interaction
+                // hit.collider.GetComponent<IInteractable>()?.Interact();
+            }
+           
         }
     }
 
-    void Jump()
+    void OnInteract()
+    {
+        heldInteractable.Interact(playerCamera.transform.forward);
+        heldInteractable = null;
+    }
+
+    void OnJump()
     {
         if (controller.isGrounded)
         {
