@@ -854,6 +854,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6243582926206700390, guid: 608a3ddc07ed5f4468a4b28e5e09e604, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 60cc764dd089a82418d3c9af5cb6edc0, type: 2}
     - target: {fileID: 6280228952276794425, guid: 608a3ddc07ed5f4468a4b28e5e09e604, type: 3}
       propertyPath: m_Name
       value: BasketBall
@@ -862,6 +866,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Interactable
       objectReference: {fileID: 0}
+    - target: {fileID: 7223918104525099368, guid: 608a3ddc07ed5f4468a4b28e5e09e604, type: 3}
+      propertyPath: m_Mass
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315815584836253761, guid: 608a3ddc07ed5f4468a4b28e5e09e604, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: d3f33d1a6a58a8b499d375c0fe2eb69c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
