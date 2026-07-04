@@ -6,6 +6,7 @@ public class GameModeData : ScriptableObject
 {
 
     public int howManyToScore;
-   
+    public GameObject player;
+    public GameObject ball;
 }
 

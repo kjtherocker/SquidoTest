@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b73e5a534b8574459605e1163f8c997, type: 3}
   m_Name: GM_BasketBall_Normal
   m_EditorClassIdentifier: 
-  itemName: 
-  damage: 0
-  weight: 0
+  howManyToScore: 15
+  player: {fileID: 4244835035041357294, guid: 074a684fc10cd434d8275c8d35fe11a8, type: 3}
+  ball: {fileID: 6280228952276794425, guid: 608a3ddc07ed5f4468a4b28e5e09e604, type: 3}

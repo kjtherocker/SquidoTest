@@ -16,4 +16,4 @@ MonoBehaviour:
   maxLookAngle: 85
   moveSpeed: 6
   gravity: -14
-  jumpHeight: 1
+  jumpHeight: 3

@@ -13,15 +13,22 @@ public class Interactable_Base : MonoBehaviour
         interactableRigidbody = GetComponent<Rigidbody>();
     }
 
-   public void Interact(Vector3 aForwardVector)
+   public void Interact(Vector3 aForwardVector,float heldPercentage)
     {
         interactableRigidbody = GetComponent<Rigidbody>();
         transform.SetParent(null);
 
         interactableRigidbody.isKinematic = false;
         interactableRigidbody.useGravity = true;
+        float result = Mathf.Lerp(3, 12, heldPercentage);
 
-        interactableRigidbody.AddForce(aForwardVector * 16, ForceMode.Impulse);
+        interactableRigidbody.AddForce(aForwardVector * result, ForceMode.Impulse);
+    }
+
+    public Vector3 GetVelocity(Vector3 aForwardVector,float heldPercentage)
+    {
+        float result = Mathf.Lerp(3, 12, heldPercentage);
+        return aForwardVector * result / interactableRigidbody.mass;
     }
 
     // Update is called once per frame
