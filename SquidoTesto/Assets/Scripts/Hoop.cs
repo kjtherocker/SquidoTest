@@ -1,29 +1,47 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 public class Hoop : MonoBehaviour
 {
     
     public Action<int>  OnScore;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private readonly Dictionary<GameObject, bool> ballEnteredFromTop = new();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
+    private const int ADDED_SCORE = 3;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Interactable"))
+        if (!other.CompareTag("Ball"))
         {
-            OnScore?.Invoke(3);
-            Debug.Log("Ball entered hoop trigger!");
+            return;
         }
         
+        bool enteredFromTop = other.transform.position.y > transform.position.y;
+
+        ballEnteredFromTop[other.gameObject] = enteredFromTop;
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Ball"))
+        {
+            return;
+        }
+
+        if (!ballEnteredFromTop.TryGetValue(other.gameObject, out bool enteredFromTop))
+        {
+            return;
+        }
+
+        bool exitedBelow = other.transform.position.y < transform.position.y;
+
+        if (enteredFromTop && exitedBelow)
+        {
+            OnScore?.Invoke(ADDED_SCORE);
+        }
+
+        ballEnteredFromTop.Remove(other.gameObject);
+    }
+
 }

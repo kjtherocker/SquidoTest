@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(CanvasGroup))]
 public class UI_View_Base : MonoBehaviour
 {
-    private CanvasGroup canvasGroup;
+    protected CanvasGroup canvasGroup;
     protected virtual void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();

@@ -1,39 +1,56 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+
 public class Interactable_Base : MonoBehaviour
 {
 
-    [HideInInspector]
+    private const int MIN_POWER_RANGE = 3;
+    private const int MAX_POWER_RANGE = 12;
+
+    public Transform ParentTransform;
+    
     public Rigidbody interactableRigidbody;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Awake()
+    private void Start()
     {
-        interactableRigidbody = GetComponent<Rigidbody>();
+      
     }
 
    public void Interact(Vector3 aForwardVector,float heldPercentage)
     {
-        interactableRigidbody = GetComponent<Rigidbody>();
-        transform.SetParent(null);
+      
+        ParentTransform.SetParent(null);
 
         interactableRigidbody.isKinematic = false;
-        interactableRigidbody.useGravity = true;
-        float result = Mathf.Lerp(3, 12, heldPercentage);
+        interactableRigidbody.useGravity  = true;
+        float result = Mathf.Lerp(MIN_POWER_RANGE, MAX_POWER_RANGE, heldPercentage);
 
         interactableRigidbody.AddForce(aForwardVector * result, ForceMode.Impulse);
     }
 
+    public void SetEquip(Transform aEquipTransform)
+    {
+   
+        
+        if (!interactableRigidbody)
+        {
+            return;
+        }
+        
+        interactableRigidbody.isKinematic = true;
+        interactableRigidbody.useGravity = false;
+        
+        ParentTransform.SetParent(aEquipTransform);
+        ParentTransform.localPosition = Vector3.zero;
+        ParentTransform.localRotation = Quaternion.identity;
+    }
+
     public Vector3 GetVelocity(Vector3 aForwardVector,float heldPercentage)
     {
-        float result = Mathf.Lerp(3, 12, heldPercentage);
+        float result = Mathf.Lerp(MIN_POWER_RANGE, MAX_POWER_RANGE, heldPercentage);
         return aForwardVector * result / interactableRigidbody.mass;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+ 
 }

@@ -31,7 +31,7 @@ public class UI_View_ScoreTracker : UI_View_Base
 
     public void SetScore(int aScore)
     {
-        tmp_ScoreUI.SetText(MaxScore.ToString()+"/"+aScore.ToString());
+        tmp_ScoreUI.SetText(aScore.ToString()+"/"+ MaxScore.ToString() );
     }
 
     public void AddScore(int points)

@@ -180,7 +180,9 @@ GameObject:
   - component: {fileID: 7953575296217097948}
   - component: {fileID: 7977930381126719484}
   - component: {fileID: 4748738145362368392}
+  - component: {fileID: 3716996020176675431}
   - component: {fileID: 4117155726285690558}
+  - component: {fileID: 288219872291932832}
   - component: {fileID: 3488163047481866205}
   m_Layer: 0
   m_Name: Fps_Player
@@ -274,6 +276,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3716996020176675431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4244835035041357294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 469677fc8ef475547bdf94c65d1f0a47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4117155726285690558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,9 +301,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 6755682156092548954}
-  interactableTransform: {fileID: 8416151788067144193}
   PlayerMovementData: {fileID: 11400000, guid: 6b3498c3e1c45fc41bc21505e09b2017, type: 2}
-  ballTrajectorySpline: {fileID: 5579791628160722103}
+--- !u!114 &288219872291932832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4244835035041357294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e88548dcc5d273f4fadc0ab4328dcf7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableTransform: {fileID: 8416151788067144193}
   playerCamera: {fileID: 4407962644433648553}
 --- !u!143 &3488163047481866205
 CharacterController:
@@ -362,7 +387,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 5365756013237902277}
-  splineContainer: {fileID: 0}
   resolution: 60
   simulationTime: 2.47
   lineRenderer: {fileID: 4304433787263818780}

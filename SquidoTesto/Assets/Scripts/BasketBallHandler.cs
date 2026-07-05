@@ -13,7 +13,6 @@ public class BasketBallHandler : GameModeHandler
 
     private UI_View_ScoreTracker scoreTracker;
     private UI_View_BallPower    BallPower;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
  
     public Action<int>  OnSetScore;
     public Action<int> OnScoreChanged;
@@ -49,10 +48,16 @@ public class BasketBallHandler : GameModeHandler
         base.StartFlow();
         LockCursor();
         
-        UI_ViewManager = UI_View_Manager.Instance;   
+        UI_ViewManager = UI_View_Manager.Instance;
+        UI_ViewManager.Initialize();
+        
         scoreTracker   = (UI_View_ScoreTracker)UI_ViewManager.PushAndGetView(EViewID.Score, EViewTypes.Persistent);
         scoreTracker.SetMaxScore(gamemodeData.howManyToScore);
-        BallPower   = (UI_View_BallPower)UI_ViewManager.PushAndGetView(EViewID.BallPower, EViewTypes.Persistent);
+        
+        BallPower      = (UI_View_BallPower)UI_ViewManager.PushAndGetView(EViewID.BallPower, EViewTypes.Persistent);
+        
+        UI_View_Interaction view_Interaction = (UI_View_Interaction)UI_ViewManager.PushAndGetView(EViewID.Interaction, EViewTypes.Persistent);
+
         
         List<Hoop> hoops = Object.FindObjectsByType<Hoop>(FindObjectsSortMode.None).ToList();
 
@@ -63,13 +68,15 @@ public class BasketBallHandler : GameModeHandler
         
         OnScoreChanged += scoreTracker.SetScore;
         var spawnedObject = Instantiate(gamemodeData.player);
-        PlayerMovementController playerMovementController = spawnedObject.GetComponent<PlayerMovementController>();
-
+        
+        Playerhub playerMovementController = spawnedObject.GetComponent<Playerhub>();
+        playerMovementController.Initialize();
+        
         if (playerMovementController != null)
         {
-            playerMovementController.OnHeldShoot += BallPower.SetSlider;
+            playerMovementController.interactionHandler.OnHeldShoot += BallPower.SetSlider;
+            view_Interaction.SetInteractionAction(playerMovementController.interactionHandler);
         }
-
         
     }
 
@@ -77,7 +84,8 @@ public class BasketBallHandler : GameModeHandler
     protected override void EndFlow()
     {
         base.EndFlow();
-        
+        UI_ViewManager.PopAll();
+        UI_ViewManager.PushView(EViewID.Win,EViewTypes.Persistent);
     }
 
     // Update is called once per frame

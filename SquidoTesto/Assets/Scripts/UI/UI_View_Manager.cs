@@ -4,9 +4,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 public enum EViewID
 {
-    None      = 0,
-    BallPower = 1,
-    Score     = 2,
+    None        = 0,
+    BallPower   = 1,
+    Score       = 2,
+    Interaction = 3,
+    Win         = 4,
 }
 
 public enum EViewTypes
@@ -25,7 +27,8 @@ public class UI_View_Manager : SingletonHelper<UI_View_Manager>
     private Dictionary<EViewTypes, List<UI_View_Base>> activeViews = new();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    public void Initialize()
     {
         //Initializing Types
         activeViews.Add(EViewTypes.Persistent,new List<UI_View_Base>());
@@ -35,7 +38,11 @@ public class UI_View_Manager : SingletonHelper<UI_View_Manager>
         views = new Dictionary<EViewID, UI_View_Base>();
         views.Add(EViewID.BallPower, GetComponentInChildren<UI_View_BallPower>());
         views.Add(EViewID.Score, GetComponentInChildren<UI_View_ScoreTracker>());
+        views.Add(EViewID.Interaction, GetComponentInChildren<UI_View_Interaction>());
+        views.Add(EViewID.Win, GetComponentInChildren<UI_View_EndScreen>());    
     }
+
+  
     
     public void PushView(EViewID aViewID,EViewTypes aViewTypes)
     {
@@ -62,7 +69,20 @@ public class UI_View_Manager : SingletonHelper<UI_View_Manager>
 
     public void PopTop(EViewTypes aViewTypes)
     {
-        
+       
+    }
+
+    public void PopAll()
+    {
+        foreach (var viewList in activeViews)
+        {
+            List<UI_View_Base> views = viewList.Value;
+            foreach (var individualView in views)
+            {
+                individualView.OnPop();
+            }
+            viewList.Value.Clear();
+        }
     }
 
 
